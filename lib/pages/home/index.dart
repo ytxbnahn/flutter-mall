@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+
 import './searchBar.dart';
+import './bookItem.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -29,8 +32,20 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 
-  Widget SwiperWidget(BuildContext context) {
-    return Container(child: null);
+  Widget titleBar(BuildContext context, title) {
+    return new Center(
+        child: Container(
+      child: new Text(title),
+      width: 216.w,
+      height: 70.h,
+      alignment: Alignment.center,
+      decoration: new BoxDecoration(
+          image: DecorationImage(
+        image: NetworkImage(
+            'https://img.zcool.cn/community/0372d195ac1cd55a8012062e3b16810.jpg'),
+        fit: BoxFit.cover,
+      )),
+    ));
   }
 
   @override
@@ -43,9 +58,25 @@ class _HomePageState extends State<HomePage>
               HomeSearchBar(),
               SliverToBoxAdapter(
                 child: Container(
-                  child: Text(
-                    '请输入',
-                    style: TextStyle(fontSize: 28.w),
+                  height: 264.w,
+                  child: new Swiper(
+                    itemBuilder: (BuildContext context, int index) {
+                      return new Image.network(
+                        "http://via.placeholder.com/350x150",
+                        fit: BoxFit.fill,
+                      );
+                    },
+                    itemHeight: 240.w,
+                    outer: true,
+                    itemCount: 3,
+                    pagination: new SwiperPagination(
+                        margin: new EdgeInsets.fromLTRB(0.0, 26.w, 0.0, 0),
+                        builder: new DotSwiperPaginationBuilder(
+                            color: Colors.white30,
+                            activeColor: Color.fromRGBO(255, 186, 27, 1),
+                            size: 8.w,
+                            activeSize: 8.w)),
+                    // control: new SwiperControl(),
                   ),
                 ),
               ),
@@ -66,10 +97,13 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ),
+              SliverToBoxAdapter(
+                child: titleBar(context, '新书上架'),
+              ),
               SliverList(
                   delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return Text(_bookList[index]['name']);
+                  return BookItemPage();
                 },
                 childCount: _bookList.length,
               )),

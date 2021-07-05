@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +9,7 @@ class HomeSearchBar extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         child: Text(
-          '请输入',
+          '输入书名',
           style: TextStyle(
               fontSize: 28.w, color: Color.fromRGBO(211, 211, 211, 1)),
         ),
