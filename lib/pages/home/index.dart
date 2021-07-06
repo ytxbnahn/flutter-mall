@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import "package:flutter_mall/http/index.dart";
 
 import './searchBar.dart';
 import './bookItem.dart';
@@ -31,6 +32,13 @@ class _HomePageState extends State<HomePage>
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() async {
+    super.initState();
+    var a = await ApiClient().getIndex();
+    print(a.data!.popup);
+  }
 
   Widget titleBar(BuildContext context, title) {
     return new Center(
