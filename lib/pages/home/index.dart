@@ -25,19 +25,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   String _name = 'home';
-  final List _bookList = [
-    {'name': 'dddf'},
-    {'name': 'dddfd'}
-  ];
+  List<dynamic> _bookList = [];
+  List<dynamic> _bookHotList = [];
 
   @override
   bool get wantKeepAlive => true;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    initData();
+  }
+
+  void initData() async {
     var a = await ApiClient().getIndex();
-    print(a.data!.popup);
+    // var b = await ApiClient().getHotList();
+    print(a.data.bookList);
+    setState(() {
+      this._bookList = a.data.bookList!;
+      // this._bookHotList = b.data!;
+    });
   }
 
   Widget titleBar(BuildContext context, title) {
@@ -45,7 +52,7 @@ class _HomePageState extends State<HomePage>
         child: Container(
       child: new Text(title),
       width: 216.w,
-      height: 70.h,
+      height: 70.w,
       alignment: Alignment.center,
       decoration: new BoxDecoration(
           image: DecorationImage(
@@ -111,7 +118,7 @@ class _HomePageState extends State<HomePage>
               SliverList(
                   delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return BookItemPage();
+                  return BookItemPage(data: _bookList[index]);
                 },
                 childCount: _bookList.length,
               )),

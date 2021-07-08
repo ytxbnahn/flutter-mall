@@ -1,15 +1,22 @@
 import "package:flutter_mall/http/utils.dart";
 import "package:flutter_mall/model/index.dart";
+import 'package:flutter_mall/model/base.dart';
 
 class Api {
   ///用户合同列表
   static const getIndex = 'mall/index';
+  static const getHotList = 'mall/hotList';
 }
 
 class ApiClient {
-  Future<IndexEntity> getIndex() async {
+  Future<BaseResponse<IndexData>> getIndex() async {
     var r = await HttpUtil().get(Api.getIndex);
-    print(r);
-    return IndexEntity.fromJson(r);
+    return BaseResponse<IndexData>.fromJson(r);
+  }
+
+  Future<BaseResponse<List<BookItem>>> getHotList() async {
+    var r = await HttpUtil()
+        .post(Api.getHotList, data: {'pageNum': '1', 'pageSize': '20'});
+    return BaseResponse<List<BookItem>>.fromJson(r);
   }
 }

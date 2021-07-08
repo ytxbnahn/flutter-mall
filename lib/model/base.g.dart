@@ -6,13 +6,17 @@ part of 'base.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Base<T> _$BaseFromJson<T>(Map<String, dynamic> json) {
-  return Base<T>()
-    ..msg = json['msg'] as String?
-    ..code = json['code'] as int?;
+BaseResponse<T> _$BaseResponseFromJson<T>(Map<String, dynamic> json) {
+  return BaseResponse<T>(
+    status: json['status'] as int?,
+    msg: json['msg'] as String?,
+    data: BaseResponse._dataFromJson(json['data'] as Object),
+  );
 }
 
-Map<String, dynamic> _$BaseToJson<T>(Base<T> instance) => <String, dynamic>{
-      'msg': instance.msg,
-      'code': instance.code,
-    };
+PaginationResultType<T> _$PaginationResultTypeFromJson<T>(
+    Map<String, dynamic> json) {
+  return PaginationResultType<T>(
+    data: PaginationResultType._dataFromJson(json['data'] as Object),
+  );
+}

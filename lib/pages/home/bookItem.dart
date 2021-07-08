@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
+import 'package:flutter_mall/model/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookItemPage extends StatefulWidget {
-  BookItemPage({Key? key}) : super(key: key);
-
+  BookItemPage({Key? key, required this.data}) : super(key: key);
+  final BookItem data;
   @override
   createState() => _BookItemPage();
 }
@@ -15,31 +16,33 @@ class _BookItemPage extends State<BookItemPage> {
       child: Row(children: [
         Stack(children: [
           Image.network(
-            'https://img.zcool.cn/community/0372d195ac1cd55a8012062e3b16810.jpg',
+            widget.data.cover ?? '',
             width: 196.w,
             height: 260.w,
             fit: BoxFit.cover,
           ),
-          Container(
-            child: new Text('暂无库存'),
-            margin: EdgeInsets.only(top: 212.w),
-            width: 196.w,
-            height: 48.w,
-            alignment: Alignment.center,
-            color: Color.fromRGBO(0, 0, 0, 0.4),
-          )
+          widget.data.canbuy ?? true
+              ? Container(
+                  child: new Text(widget.data.canbuy.toString()),
+                  margin: EdgeInsets.only(top: 212.w),
+                  width: 196.w,
+                  height: 48.w,
+                  alignment: Alignment.center,
+                  color: Color.fromRGBO(0, 0, 0, 0.4),
+                )
+              : Container()
         ]),
         Container(
           margin: EdgeInsets.only(left: 20.w),
           child: Column(
             children: [
               new Text(
-                '皮囊',
+                widget.data.bookname!,
                 style: TextStyle(fontSize: 28.w),
                 textAlign: TextAlign.left,
               ),
               new Text(
-                '罗乡',
+                widget.data.canbuy.toString(),
                 textAlign: TextAlign.left,
               ),
               Row(
