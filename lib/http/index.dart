@@ -14,9 +14,9 @@ class ApiClient {
     return BaseResponse<IndexData>.fromJson(r);
   }
 
-  Future<BaseResponse<List<BookItem>>> getHotList() async {
+  Future<BaseResponse<HotPaginationResultType>> getHotList() async {
     var r = await HttpUtil()
         .post(Api.getHotList, data: {'pageNum': '1', 'pageSize': '20'});
-    return BaseResponse<List<BookItem>>.fromJson(r);
+    return BaseResponse<HotPaginationResultType>.fromJson(r);
   }
 }

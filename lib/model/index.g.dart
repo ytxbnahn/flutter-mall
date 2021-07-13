@@ -16,13 +16,21 @@ IndexData _$IndexDataFromJson(Map<String, dynamic> json) {
         .toList()
     ..bookList = (json['bookList'] as List<dynamic>?)
         ?.map((e) => BookItem.fromJson(e as Map<String, dynamic>))
-        .toList();
+        .toList()
+    ..bookSetList = (json['bookSetList'] as List<dynamic>?)
+        ?.map((e) => BookSetItem.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..otherBookSet = json['otherBookSet'] == null
+        ? null
+        : OtherBookSet.fromJson(json['otherBookSet'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$IndexDataToJson(IndexData instance) => <String, dynamic>{
       'popup': instance.popup,
       'bannerList': instance.bannerList,
       'bookList': instance.bookList,
+      'bookSetList': instance.bookSetList,
+      'otherBookSet': instance.otherBookSet,
     };
 
 Popup _$PopupFromJson(Map<String, dynamic> json) {
@@ -34,6 +42,34 @@ Popup _$PopupFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$PopupToJson(Popup instance) => <String, dynamic>{
       'background': instance.background,
       'url': instance.url,
+    };
+
+BookSetItem _$BookSetItemFromJson(Map<String, dynamic> json) {
+  return BookSetItem()
+    ..banner = json['banner'] as String?
+    ..setName = json['setName'] as String?
+    ..icon = json['icon'] as String?;
+}
+
+Map<String, dynamic> _$BookSetItemToJson(BookSetItem instance) =>
+    <String, dynamic>{
+      'banner': instance.banner,
+      'setName': instance.setName,
+      'icon': instance.icon,
+    };
+
+OtherBookSet _$OtherBookSetFromJson(Map<String, dynamic> json) {
+  return OtherBookSet()
+    ..banner = json['banner'] as String?
+    ..pageUrl = json['pageUrl'] as String?
+    ..id = json['id'] as int?;
+}
+
+Map<String, dynamic> _$OtherBookSetToJson(OtherBookSet instance) =>
+    <String, dynamic>{
+      'banner': instance.banner,
+      'pageUrl': instance.pageUrl,
+      'id': instance.id,
     };
 
 BookItem _$BookItemFromJson(Map<String, dynamic> json) {
@@ -72,10 +108,30 @@ Map<String, dynamic> _$BookItemToJson(BookItem instance) => <String, dynamic>{
     };
 
 BannerListItem _$BannerListItemFromJson(Map<String, dynamic> json) {
-  return BannerListItem()..id = json['id'] as int?;
+  return BannerListItem()
+    ..id = json['id'] as int?
+    ..coverUrl = json['coverUrl'] as String?
+    ..redirectUrl = json['redirectUrl'] as String?;
 }
 
 Map<String, dynamic> _$BannerListItemToJson(BannerListItem instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'coverUrl': instance.coverUrl,
+      'redirectUrl': instance.redirectUrl,
+    };
+
+HotPaginationResultType _$HotPaginationResultTypeFromJson(
+    Map<String, dynamic> json) {
+  return HotPaginationResultType(
+    list: (json['list'] as List<dynamic>)
+        .map((e) => BookItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
+Map<String, dynamic> _$HotPaginationResultTypeToJson(
+        HotPaginationResultType instance) =>
+    <String, dynamic>{
+      'list': instance.list,
     };

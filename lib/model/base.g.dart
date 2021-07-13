@@ -13,10 +13,3 @@ BaseResponse<T> _$BaseResponseFromJson<T>(Map<String, dynamic> json) {
     data: BaseResponse._dataFromJson(json['data'] as Object),
   );
 }
-
-PaginationResultType<T> _$PaginationResultTypeFromJson<T>(
-    Map<String, dynamic> json) {
-  return PaginationResultType<T>(
-    data: PaginationResultType._dataFromJson(json['data'] as Object),
-  );
-}

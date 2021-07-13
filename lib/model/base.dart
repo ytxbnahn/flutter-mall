@@ -25,36 +25,10 @@ class BaseResponse<T> {
   /// Decodes [json] by "inspecting" its contents.
   static T _dataFromJson<T>(Object json) {
     if (json is Map<String, dynamic>) {
-      switch (T) {
-        case IndexData:
-          return IndexData.fromJson(json) as T;
-      }
-    }
-    throw ArgumentError.value(
-      json,
-      'json',
-      'Cannot convert the provided data.',
-    );
-  }
-}
-
-@JsonSerializable(createToJson: false)
-class PaginationResultType<T> {
-  @JsonKey(fromJson: _dataFromJson)
-  final T data;
-
-  const PaginationResultType({
-    required this.data,
-  });
-  factory PaginationResultType.fromJson(Map<String, dynamic> json) =>
-      _$PaginationResultTypeFromJson(json);
-
-  /// Decodes [json] by "inspecting" its contents.
-  static T _dataFromJson<T>(Object json) {
-    if (json is Map<String, dynamic>) {
-      switch (T) {
-        case IndexData:
-          return IndexData.fromJson(json) as T;
+      if (IndexData == T) {
+        return IndexData.fromJson(json) as T;
+      } else if (HotPaginationResultType == T) {
+        return HotPaginationResultType.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

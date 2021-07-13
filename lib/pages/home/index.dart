@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mall/model/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import "package:flutter_mall/http/index.dart";
@@ -25,7 +26,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   String _name = 'home';
-  List<dynamic> _bookList = [];
+  List<BookItem> _bookList = [];
+  List<dynamic> _hotList = [];
+
+  List<BookSetItem> _bookSetList = [];
+  List<BannerListItem> _bannerList = [];
   List<dynamic> _bookHotList = [];
 
   @override
@@ -39,9 +44,12 @@ class _HomePageState extends State<HomePage>
 
   void initData() async {
     var a = await ApiClient().getIndex();
-    // var b = await ApiClient().getHotList();
-    print(a.data.bookList);
+    var b = await ApiClient().getHotList();
+    print(b.data.list);
     setState(() {
+      this._hotList = b.data.list;
+      this._bannerList = a.data.bannerList!;
+      this._bookSetList = a.data.bookSetList!;
       this._bookList = a.data.bookList!;
       // this._bookHotList = b.data!;
     });
@@ -56,8 +64,7 @@ class _HomePageState extends State<HomePage>
       alignment: Alignment.center,
       decoration: new BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(
-            'https://img.zcool.cn/community/0372d195ac1cd55a8012062e3b16810.jpg'),
+        image: NetworkImage('https://file.2040.guomai.cc/mall_index_bg@2x.png'),
         fit: BoxFit.cover,
       )),
     ));
@@ -77,13 +84,13 @@ class _HomePageState extends State<HomePage>
                   child: new Swiper(
                     itemBuilder: (BuildContext context, int index) {
                       return new Image.network(
-                        "http://via.placeholder.com/350x150",
+                        _bannerList[index].coverUrl ?? '',
                         fit: BoxFit.fill,
                       );
                     },
                     itemHeight: 240.w,
                     outer: true,
-                    itemCount: 3,
+                    itemCount: _bannerList.length,
                     pagination: new SwiperPagination(
                         margin: new EdgeInsets.fromLTRB(0.0, 26.w, 0.0, 0),
                         builder: new DotSwiperPaginationBuilder(
@@ -101,13 +108,12 @@ class _HomePageState extends State<HomePage>
                   height: 100.w,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+                    itemCount: _bookSetList.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        width: 750.w,
-                        padding: EdgeInsets.all(0),
-                        color: Colors.primaries[index],
-                      );
+                      return Column(children: [
+                        new Image.network(_bookSetList[index].icon ?? '',
+                            fit: BoxFit.fill, height: 80.w, width: 80.w)
+                      ]);
                     },
                   ),
                 ),
@@ -115,12 +121,35 @@ class _HomePageState extends State<HomePage>
               SliverToBoxAdapter(
                 child: titleBar(context, '新书上架'),
               ),
+              SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                  return Container(
+                    child: new Image.network(
+                      _bookList[index].cover!,
+                      fit: BoxFit.cover,
+                      height: 200,
+                    ),
+                    // width: 196.w,
+                    // height: 360,
+                  );
+                }, childCount: _bookList.length),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10.w,
+                  crossAxisSpacing: 10.w,
+                  childAspectRatio: 0.8,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: titleBar(context, '畅销图书'),
+              ),
               SliverList(
                   delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return BookItemPage(data: _bookList[index]);
+                  return BookItemPage(data: _hotList[index]);
                 },
-                childCount: _bookList.length,
+                childCount: _hotList.length,
               )),
             ],
           ),
@@ -128,8 +157,8 @@ class _HomePageState extends State<HomePage>
         ),
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: NetworkImage(
-              'https://img.zcool.cn/community/0372d195ac1cd55a8012062e3b16810.jpg'),
+          image:
+              NetworkImage('https://file.2040.guomai.cc/mall_index_bg@2x.png'),
           fit: BoxFit.cover,
         )));
   }
