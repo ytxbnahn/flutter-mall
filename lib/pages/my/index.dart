@@ -16,9 +16,10 @@ class MyPage extends StatefulWidget {
   _MyPageState createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class _MyPageState extends State<MyPage> with AutomaticKeepAliveClientMixin {
   int _counter = 0;
-
+  @override
+  bool get wantKeepAlive => true;
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has

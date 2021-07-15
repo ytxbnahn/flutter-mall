@@ -16,7 +16,10 @@ class ShopCartPage extends StatefulWidget {
   _ShopCartPageState createState() => _ShopCartPageState();
 }
 
-class _ShopCartPageState extends State<ShopCartPage> {
+class _ShopCartPageState extends State<ShopCartPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     print(context);

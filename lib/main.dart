@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:fluro/fluro.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_mall/utils/color.dart';
-import 'package:flutter_mall/pages/index.dart';
+import './router/application.dart';
+import './router/routes.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State createState() {
+    return _MyApp();
+  }
+}
+
+class _MyApp extends State<MyApp> {
+  _MyApp() {
+    final router = FluroRouter();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -37,7 +53,7 @@ class MyApp extends StatelessWidget {
                 // is not restarted.
                 scaffoldBackgroundColor: ColorUtils.viewbgcolor,
               ),
-              home: IndexPage(title: 'Flutter Demo Home Page'),
+              onGenerateRoute: Application.router.generator,
             ));
   }
 }

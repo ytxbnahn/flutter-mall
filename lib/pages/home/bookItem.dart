@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_mall/model/index.dart';
-import 'package:flutter_mall/pages/bookDetail/index.dart';
+import 'package:flutter_mall/router/application.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookItemPage extends StatefulWidget {
@@ -69,9 +69,7 @@ class _BookItemPage extends State<BookItemPage> {
           width: 684.w,
         ),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BookDetailPage();
-          }));
+          Application.router.navigateTo(context, '/bookDetail?id=12');
         });
   }
 }

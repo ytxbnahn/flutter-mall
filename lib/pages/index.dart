@@ -5,7 +5,7 @@ import 'package:flutter_mall/pages/shopcart/index.dart';
 import 'package:flutter_mall/utils/color.dart';
 
 class IndexPage extends StatefulWidget {
-  IndexPage({Key? key, required this.title}) : super(key: key);
+  IndexPage({Key? key, required this.current}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,14 +16,18 @@ class IndexPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final int current;
 
   @override
-  _IndexPageState createState() => _IndexPageState();
+  _IndexPageState createState() => _IndexPageState(this.current);
 }
 
 class _IndexPageState extends State<IndexPage> {
-  int _currentIndex = 0; // 底部导航当前页面
+  _IndexPageState(current) {
+    this._currentIndex = current;
+  }
+  // late String _titleT;
+  late int _currentIndex; // 底部导航当前页面
   PageController _pageController = PageController();
   final List<Image> _tabImages = [
     Image.asset('assets/images/tabbar_btn1_select.png', width: 25, height: 25),
@@ -44,6 +48,12 @@ class _IndexPageState extends State<IndexPage> {
     ShopCartPage(),
     MyPage(),
   ];
+  @override
+  void initState() {
+    super.initState();
+    print('object');
+  }
+
   Image _getBarImage(int index) {
     if (_currentIndex == index) {
       return _tabImages[index * 2];

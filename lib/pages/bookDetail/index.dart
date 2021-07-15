@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mall/router/application.dart';
 
 class BookDetailPage extends StatefulWidget {
-  BookDetailPage({Key? key}) : super(key: key);
+  final String id;
+  BookDetailPage({Key? key, required this.id}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -30,6 +32,15 @@ class _BookDetailPageState extends State<BookDetailPage> {
     });
   }
 
+  go() {
+    // Application.router.printTree();
+    // Application.router.matchRoute(context, '/home?current=1');
+
+    // Application.router.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    // Application.router.navigateTo(context, '/home?current=1', replace: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     print(context);
@@ -37,8 +48,24 @@ class _BookDetailPageState extends State<BookDetailPage> {
         appBar: AppBar(
           title: Text("详情"),
         ),
-        body: Container(
-          child: Text("hello BookDetail $_counter"),
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Container(
+                child: const Text('叔 本'),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                child: TextButton(
+                  child: const Text('购物车'),
+                  onPressed: () {
+                    go();
+                  },
+                ),
+              ),
+            )
+          ],
         ));
   }
 }

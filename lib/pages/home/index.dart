@@ -36,10 +36,21 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 
+  SwiperController? _swiperController;
+
   @override
   void initState() {
     super.initState();
+    _swiperController = SwiperController();
+
     initData();
+  }
+
+  @override
+  void dispose() {
+    _swiperController!.stopAutoplay();
+    _swiperController!.dispose();
+    super.dispose();
   }
 
   void initData() async {
@@ -81,25 +92,30 @@ class _HomePageState extends State<HomePage>
               SliverToBoxAdapter(
                 child: Container(
                   height: 264.w,
-                  child: new Swiper(
-                    itemBuilder: (BuildContext context, int index) {
-                      return new Image.network(
-                        _bannerList[index].coverUrl ?? '',
-                        fit: BoxFit.fill,
-                      );
-                    },
-                    itemHeight: 240.w,
-                    outer: true,
-                    itemCount: _bannerList.length,
-                    pagination: new SwiperPagination(
-                        margin: new EdgeInsets.fromLTRB(0.0, 26.w, 0.0, 0),
-                        builder: new DotSwiperPaginationBuilder(
-                            color: Colors.white30,
-                            activeColor: Color.fromRGBO(255, 186, 27, 1),
-                            size: 8.w,
-                            activeSize: 8.w)),
-                    // control: new SwiperControl(),
-                  ),
+                  child: _bannerList.length > 0
+                      ? new Swiper(
+                          autoplay: true,
+                          controller: _swiperController,
+                          itemBuilder: (BuildContext context, int index) {
+                            return new Image.network(
+                              _bannerList[index].coverUrl ?? '',
+                              fit: BoxFit.fill,
+                            );
+                          },
+                          itemHeight: 240.w,
+                          outer: true,
+                          itemCount: _bannerList.length,
+                          pagination: new SwiperPagination(
+                              margin:
+                                  new EdgeInsets.fromLTRB(0.0, 26.w, 0.0, 0),
+                              builder: new DotSwiperPaginationBuilder(
+                                  color: Colors.white30,
+                                  activeColor: Color.fromRGBO(255, 186, 27, 1),
+                                  size: 8.w,
+                                  activeSize: 8.w)),
+                          // control: new SwiperControl(),
+                        )
+                      : Container(),
                 ),
               ),
               SliverToBoxAdapter(
