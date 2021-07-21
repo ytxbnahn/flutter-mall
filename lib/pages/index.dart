@@ -4,6 +4,8 @@ import 'package:flutter_mall/pages/home/index.dart';
 import 'package:flutter_mall/pages/shopcart/index.dart';
 import 'package:flutter_mall/utils/color.dart';
 
+import 'package:flutter_mall/events/index.dart';
+
 class IndexPage extends StatefulWidget {
   IndexPage({Key? key, required this.current}) : super(key: key);
 
@@ -51,7 +53,12 @@ class _IndexPageState extends State<IndexPage> {
   @override
   void initState() {
     super.initState();
-    print('object');
+    eventBus.on<ChangeIndexTabEvent>().listen((event) => {
+          _pageController.jumpToPage(event.index),
+          setState(() {
+            _currentIndex = event.index;
+          })
+        });
   }
 
   Image _getBarImage(int index) {

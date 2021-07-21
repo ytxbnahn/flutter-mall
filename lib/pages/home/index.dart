@@ -69,13 +69,17 @@ class _HomePageState extends State<HomePage>
   Widget titleBar(BuildContext context, title) {
     return new Center(
         child: Container(
-      child: new Text(title),
+      child: new Text(
+        title,
+        style: TextStyle(color: Colors.white, fontSize: 32.w),
+      ),
       width: 216.w,
       height: 70.w,
+      margin: EdgeInsets.only(bottom: 40.w),
       alignment: Alignment.center,
       decoration: new BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage('https://file.2040.guomai.cc/mall_index_bg@2x.png'),
+        image: AssetImage('assets/images/gm_homepagetitleicon.png'),
         fit: BoxFit.cover,
       )),
     ));
@@ -92,6 +96,7 @@ class _HomePageState extends State<HomePage>
               SliverToBoxAdapter(
                 child: Container(
                   height: 264.w,
+                  padding: EdgeInsets.symmetric(horizontal: 32.w),
                   child: _bannerList.length > 0
                       ? new Swiper(
                           autoplay: true,
@@ -120,53 +125,74 @@ class _HomePageState extends State<HomePage>
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  margin: EdgeInsets.only(top: 10),
-                  height: 100.w,
-                  child: ListView.builder(
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10.w, horizontal: 32.w),
+                  height: 134.w,
+                  child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: _bookSetList.length,
                     itemBuilder: (context, index) {
                       return Column(children: [
                         new Image.network(_bookSetList[index].icon ?? '',
-                            fit: BoxFit.fill, height: 80.w, width: 80.w)
+                            fit: BoxFit.fill, height: 80.w, width: 80.w),
+                        new Text(_bookSetList[index].setName!)
                       ]);
                     },
+                    separatorBuilder: (context, index) => Container(
+                      width: 48.w,
+                    ),
                   ),
                 ),
               ),
               SliverToBoxAdapter(
                 child: titleBar(context, '新书上架'),
               ),
-              SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  return Container(
-                    child: new Image.network(
-                      _bookList[index].cover!,
-                      fit: BoxFit.cover,
-                      height: 200,
-                    ),
-                    // width: 196.w,
-                    // height: 360,
-                  );
-                }, childCount: _bookList.length),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 10.w,
-                  crossAxisSpacing: 10.w,
-                  childAspectRatio: 0.8,
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(36.w, 0, 36.w, 60.w),
+                sliver: SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return Column(children: [
+                      Container(
+                        child: new Image.network(
+                          _bookList[index].cover!,
+                          fit: BoxFit.cover,
+                          width: 196.w,
+                          height: 260.w,
+                        ),
+                        // width: 196.w,
+                        // height: 360,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.w),
+                        child: Text(
+                          _bookList[index].bookname!,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    ]);
+                  }, childCount: _bookList.length),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 40.w,
+                    crossAxisSpacing: 50.w,
+                    childAspectRatio: 0.6,
+                  ),
                 ),
               ),
               SliverToBoxAdapter(
                 child: titleBar(context, '畅销图书'),
               ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return BookItemPage(data: _hotList[index]);
-                },
-                childCount: _hotList.length,
-              )),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 32.w),
+                sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return BookItemPage(data: _hotList[index]);
+                  },
+                  childCount: _hotList.length,
+                )),
+              ),
             ],
           ),
           backgroundColor: Colors.transparent,

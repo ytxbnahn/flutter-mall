@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_mall/components/markAndRetailPrice.dart';
 import 'package:flutter_mall/model/index.dart';
 import 'package:flutter_mall/router/application.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,9 @@ class _BookItemPage extends State<BookItemPage> {
               ),
               widget.data.canbuy ?? false
                   ? Container(
-                      child: new Text(widget.data.canbuy.toString()),
+                      child: new Text(
+                        widget.data.canbuy.toString(),
+                      ),
                       margin: EdgeInsets.only(top: 212.w),
                       width: 196.w,
                       height: 48.w,
@@ -40,18 +43,24 @@ class _BookItemPage extends State<BookItemPage> {
                 children: [
                   new Text(
                     widget.data.bookname!,
-                    style: TextStyle(fontSize: 28.w),
                     textAlign: TextAlign.left,
+                    style:
+                        TextStyle(fontSize: 28.w, fontWeight: FontWeight.w500),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  new Text(
-                    widget.data.canbuy.toString(),
-                    textAlign: TextAlign.left,
+                  Container(
+                    child: new Text(
+                      widget.data.author!,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Color.fromRGBO(153, 153, 153, 1),
+                      ),
+                    ),
+                    margin: EdgeInsets.only(top: 60.w, bottom: 20.w),
                   ),
-                  Row(
-                    children: [
-                      new Text('28', style: TextStyle(fontSize: 28.w)),
-                      new Text('29'),
-                    ],
+                  MarkAndRetailPrice(
+                    markPrice: 112.2,
+                    retailPrice: 12.2,
                   ),
                   Row(children: [
                     new Container(
@@ -67,6 +76,7 @@ class _BookItemPage extends State<BookItemPage> {
             )
           ]),
           width: 684.w,
+          margin: EdgeInsets.only(bottom: 60.w),
         ),
         onTap: () {
           Application.router.navigateTo(context, '/bookDetail?id=12');

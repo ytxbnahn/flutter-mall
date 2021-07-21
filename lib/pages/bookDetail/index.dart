@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mall/router/application.dart';
+import 'package:flutter_mall/events/index.dart';
 
 class BookDetailPage extends StatefulWidget {
   final String id;
@@ -38,6 +39,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
 
     // Application.router.pop(context);
     Navigator.popUntil(context, ModalRoute.withName('/'));
+    eventBus.fire(ChangeIndexTabEvent(1));
     // Application.router.navigateTo(context, '/home?current=1', replace: true);
   }
 
@@ -50,6 +52,10 @@ class _BookDetailPageState extends State<BookDetailPage> {
         ),
         body: CustomScrollView(
           slivers: [
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (context, index) => Container(child: new Text('d')),
+                    childCount: 5)),
             SliverToBoxAdapter(
               child: Container(
                 child: const Text('叔 本'),
