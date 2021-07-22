@@ -6,6 +6,7 @@ class Api {
   ///用户合同列表
   static const getIndex = 'mall/index';
   static const getHotList = 'mall/hotList';
+  static const getBookDetailById = "mall/detail";
 }
 
 class ApiClient {
@@ -18,5 +19,12 @@ class ApiClient {
     var r = await HttpUtil()
         .post(Api.getHotList, data: {'pageNum': '1', 'pageSize': '20'});
     return BaseResponse<HotPaginationResultType>.fromJson(r);
+  }
+
+  Future<BaseResponse<BookItem>> getBookDetailById(id) async {
+    var r = await HttpUtil().post(Api.getBookDetailById, data: {
+      'bookId': id,
+    });
+    return BaseResponse<BookItem>.fromJson(r);
   }
 }

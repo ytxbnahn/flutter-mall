@@ -29,6 +29,8 @@ class BaseResponse<T> {
         return IndexData.fromJson(json) as T;
       } else if (HotPaginationResultType == T) {
         return HotPaginationResultType.fromJson(json) as T;
+      } else if (BookItem == T) {
+        return BookItem.fromJson(json) as T;
       }
     }
     throw ArgumentError.value(

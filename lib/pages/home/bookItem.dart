@@ -26,9 +26,7 @@ class _BookItemPage extends State<BookItemPage> {
               ),
               widget.data.canbuy ?? false
                   ? Container(
-                      child: new Text(
-                        widget.data.canbuy.toString(),
-                      ),
+                      child: new Text('暂无库存'),
                       margin: EdgeInsets.only(top: 212.w),
                       width: 196.w,
                       height: 48.w,
@@ -59,15 +57,37 @@ class _BookItemPage extends State<BookItemPage> {
                     margin: EdgeInsets.only(top: 60.w, bottom: 20.w),
                   ),
                   MarkAndRetailPrice(
-                    markPrice: 112.2,
-                    retailPrice: 12.2,
-                  ),
-                  Row(children: [
-                    new Container(
-                      child: new Text("第一名"),
+                      markPrice: widget.data.markPrice! / 100,
+                      retailPrice: widget.data.retailPrice! / 100),
+                  Container(
+                    margin: EdgeInsets.only(top: 12.w),
+                    child: Row(
+                      children: [
+                        new Container(
+                          child: new Text(
+                            "第一名",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.w),
+                            textAlign: TextAlign.center,
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 75, 75, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8))),
+                          width: 80.w,
+                          height: 44.w,
+                          alignment: AlignmentDirectional.center,
+                        ),
+                        Image.asset(
+                          'assets/images/gm_shoppingcarticon.png',
+                          width: 29.w,
+                          height: 28.w,
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                     ),
-                    new Text('ddd')
-                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                  )
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-
+import 'package:flutter/services.dart';
+import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_mall/utils/color.dart';
 import './router/application.dart';
@@ -8,6 +9,16 @@ import './router/routes.dart';
 
 void main() {
   runApp(MyApp());
+  if (Platform.isAndroid) {
+    //设置Android头部的导航栏透明
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, //全局设置透明
+        statusBarIconBrightness: Brightness.light
+        //light:黑色图标 dark：白色图标
+        //在此处设置statusBarIconBrightness为全局设置
+        );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
 }
 
 class MyApp extends StatefulWidget {

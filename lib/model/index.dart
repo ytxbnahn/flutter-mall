@@ -58,8 +58,8 @@ class BookItem {
   String? cover;
   String? author;
   String? publishHouse;
-  int? markPrice;
-  int? retailPrice;
+  double? markPrice;
+  double? retailPrice;
   int? remainingQuantity;
   bool? canbuy;
   String? recommendText;

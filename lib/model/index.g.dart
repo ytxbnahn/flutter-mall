@@ -80,8 +80,8 @@ BookItem _$BookItemFromJson(Map<String, dynamic> json) {
     ..cover = json['cover'] as String?
     ..author = json['author'] as String?
     ..publishHouse = json['publishHouse'] as String?
-    ..markPrice = json['markPrice'] as int?
-    ..retailPrice = json['retailPrice'] as int?
+    ..markPrice = (json['markPrice'] as num?)?.toDouble()
+    ..retailPrice = (json['retailPrice'] as num?)?.toDouble()
     ..remainingQuantity = json['remainingQuantity'] as int?
     ..canbuy = json['canbuy'] as bool?
     ..recommendText = json['recommendText'] as String?

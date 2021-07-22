@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mall/http/index.dart';
+import 'package:flutter_mall/model/index.dart';
+import 'package:flutter_mall/pages/home/bookItem.dart';
 import 'package:flutter_mall/router/application.dart';
 import 'package:flutter_mall/events/index.dart';
+import 'package:flutter_mall/utils/index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookDetailPage extends StatefulWidget {
   final String id;
@@ -21,7 +26,7 @@ class BookDetailPage extends StatefulWidget {
 
 class _BookDetailPageState extends State<BookDetailPage> {
   int _counter = 0;
-
+  BookItem? _bookDetail;
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -30,6 +35,20 @@ class _BookDetailPageState extends State<BookDetailPage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initData();
+  }
+
+  void initData() async {
+    var res = await ApiClient().getBookDetailById(widget.id);
+    print(res.data);
+    setState(() {
+      this._bookDetail = res.data;
     });
   }
 
@@ -43,24 +62,56 @@ class _BookDetailPageState extends State<BookDetailPage> {
     // Application.router.navigateTo(context, '/home?current=1', replace: true);
   }
 
+  Widget _buildBackAndShare(BuildContext context) {
+    return Container(
+      child: IconButton(
+        icon: Image.asset(
+          'assets/images/gm_bookdetailshare@2x.png',
+          width: 86.w,
+          height: 48.w,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      margin: EdgeInsets.only(top: 60.w),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print(context);
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        floatingActionButton: _buildBackAndShare(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         appBar: AppBar(
-          title: Text("详情"),
+//        backgroundColor: Colors.transparent,
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+          elevation: 0,
+          leading: GestureDetector(
+              child: Container(
+            padding: EdgeInsets.all(10),
+            child: Image.asset(
+              'assets/images/nav_onbackwhite_Icon.png',
+            ),
+          )),
         ),
         body: CustomScrollView(
           slivers: [
+            !isEmpty(this._bookDetail)
+                ? SliverToBoxAdapter(
+                    child: Container(
+                      child: BookItemPage(
+                        data: this._bookDetail!,
+                      ),
+                    ),
+                  )
+                : Container(),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
                     (context, index) => Container(child: new Text('d')),
                     childCount: 5)),
-            SliverToBoxAdapter(
-              child: Container(
-                child: const Text('叔 本'),
-              ),
-            ),
             SliverToBoxAdapter(
               child: Container(
                 child: TextButton(
